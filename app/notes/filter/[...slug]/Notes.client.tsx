@@ -3,20 +3,18 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 
-import Modal from "../../components/Modal/Modal";
-import NoteForm from "../../components/NoteForm/NoteForm";
-import NoteList from "../../components/NoteList/NoteList";
-import Pagination from "../../components/Pagination/Pagination";
-import SearchBox from "../../components/SearchBox/SearchBox";
-// import ErrorPage from "./error";
-// import Loading from "../loading";
+import Modal from "@/components/Modal/Modal";
+import NoteForm from "@/components/NoteForm/NoteForm";
+import NoteList from "@/components/NoteList/NoteList";
+import Pagination from "@/components/Pagination/Pagination";
+import SearchBox from "@/components/SearchBox/SearchBox";
 
-import * as services from "../../lib/api";
+import * as services from "@/lib/api";
 import { useDebouncedCallback } from "use-debounce";
 
 import css from "./page.module.css";
-// import { ErrorMessage } from "formik";
 
 export default function Notes() {
   const [search, setSearch] = useState("");
@@ -25,9 +23,12 @@ export default function Notes() {
 
   const perPage = 12;
 
-  const { data, isLoading, isError, isSuccess } = useQuery({
-    queryKey: ["notes", search, page, perPage],
-    queryFn: () => services.fetchNotes(search, page, perPage),
+  const { slug } = useParams<{ slug: string[] }>();
+  const tag = slug[0] === "all" ? undefined : slug[0];
+
+  const { data, isSuccess } = useQuery({
+    queryKey: ["notes", search, page, perPage, tag],
+    queryFn: () => services.fetchNotes(search, page, perPage, tag),
     placeholderData: keepPreviousData,
   });
 
@@ -77,10 +78,6 @@ export default function Notes() {
 
       <main>
         {isSuccess && notes.length > 0 && <NoteList notes={notes} />}
-
-        {/* {isLoading && <Loading />} */}
-
-        {/* {isError && <ErrorMessage />} */}
 
         {isModalOpen && (
           <Modal onClose={handleCloseModal}>

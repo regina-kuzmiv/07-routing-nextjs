@@ -10,6 +10,7 @@ export async function fetchNotes(
   search: string,
   page: number,
   perPage: number,
+  tag: string | undefined,
 ): Promise<NoteResponseProps> {
   const response = await axios.get<NoteResponseProps>(
     "https://notehub-public.goit.study/api/notes",
@@ -18,6 +19,7 @@ export async function fetchNotes(
         search,
         page,
         perPage,
+        tag,
       },
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`,
@@ -73,3 +75,16 @@ export async function fetchNoteById(id: string): Promise<Note> {
   );
   return response.data;
 }
+
+interface CategoryProps {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const getCategories = async () => {
+  const res = await axios<CategoryProps[]>("/categories");
+  return res.data;
+};
