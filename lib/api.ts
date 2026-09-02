@@ -75,16 +75,3 @@ export async function fetchNoteById(id: string): Promise<Note> {
   );
   return response.data;
 }
-
-interface CategoryProps {
-  id: string;
-  name: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export const getCategories = async () => {
-  const res = await axios<CategoryProps[]>("/categories");
-  return res.data;
-};

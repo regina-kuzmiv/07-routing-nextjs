@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
 
 import Modal from "@/components/Modal/Modal";
 import NoteForm from "@/components/NoteForm/NoteForm";
@@ -16,15 +15,12 @@ import { useDebouncedCallback } from "use-debounce";
 
 import css from "./page.module.css";
 
-export default function Notes() {
+export default function Notes({ tag }: { tag: string | undefined }) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const perPage = 12;
-
-  const { slug } = useParams<{ slug: string[] }>();
-  const tag = slug[0] === "all" ? undefined : slug[0];
 
   const { data, isSuccess } = useQuery({
     queryKey: ["notes", search, page, perPage, tag],

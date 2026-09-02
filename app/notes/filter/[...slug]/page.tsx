@@ -27,7 +27,7 @@ const NotesPage = async ({ params }: HomeProps) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Notes />
+      <Notes tag={tag} />
     </HydrationBoundary>
   );
 };
