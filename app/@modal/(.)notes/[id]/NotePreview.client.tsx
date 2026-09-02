@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { fetchNoteById } from "@/lib/api";
 import Modal from "@/components/Modal/Modal";
 
-import css from "./NotePreview.client.module.css";
+import css from "./NotePreview.module.css";
 
 const NotePreviewClient = () => {
   const router = useRouter();
@@ -33,7 +33,7 @@ const NotePreviewClient = () => {
 
   return (
     <Modal onClose={close}>
-      {/* <main className={css.main}>
+      <main className={css.main}>
         <div className={css.container}>
           <div className={css.item}>
             <div className={css.header}>
@@ -44,8 +44,7 @@ const NotePreviewClient = () => {
             <p className={css.date}>{formattedDate}</p>
           </div>
         </div>
-      </main> */}
-      <p>TEST MODAL</p>
+      </main>
     </Modal>
   );
 };
